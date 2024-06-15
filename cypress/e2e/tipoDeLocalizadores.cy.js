@@ -41,6 +41,21 @@ describe('Tipo de Localizadores', () => {
       cy.contains('.header-wrapper','Widgets')
     })
 
+    it('Usando Parent', () => {
+      //obteniendo el padre
+      cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
+      cy.visit('/automation-practice-form')
+      cy.get('input[placeholder="First Name"]').parent()
+
+      //obteniendo los elementos padres
+      cy.get('input[placeholder="First Name"]').parents()
+
+      //Buscando un padre en particular
+      cy.get('input[placeholder="First Name"]').parents().find('label')
+
+      cy.get('form').find('label')
+    })
+
 
 
   })
