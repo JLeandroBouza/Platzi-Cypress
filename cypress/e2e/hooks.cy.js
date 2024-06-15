@@ -1,10 +1,17 @@
 describe('Tipo de Localizadores', () => {
+
+    //Los before pueden ir antes de los describe tambien
+
+    Before (()=>{
+        cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
+        cy.visit('/automation-practice-form')
+    })
   
+    after (()=>{
+        cy.visit('/')
+    })
 
     it('Asersciones 1', () => {
-
-      cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
-      cy.visit('/automation-practice-form')
       cy.url().should('include', 'demoqa.com')
       cy.get('#firstName').should('be.visible').should('have.atrr','placeholder','First Name')
 
@@ -14,8 +21,6 @@ describe('Tipo de Localizadores', () => {
     
     it('Asersciones 2', () => {
 
-        cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
-        cy.visit('/automation-practice-form')
         cy.url().should('include', 'demoqa.com')
         cy.get('#firstName').then((element)=>{
 
@@ -29,8 +34,6 @@ describe('Tipo de Localizadores', () => {
 
     it('Asersciones 3', () => {
 
-        cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
-        cy.visit('/automation-practice-form')
         cy.url().should('include', 'demoqa.com')
         cy.get('#firstName').then((element)=>{
 
