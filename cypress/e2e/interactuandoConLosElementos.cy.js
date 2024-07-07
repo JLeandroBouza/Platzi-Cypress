@@ -133,5 +133,72 @@ describe('Interactuar con los elementos', () => {
         
     })
 
+    it ('Interactuando con los date pickers', ()=>{
+        cy.visit('https://material.angular.io/components/datepicker/overview')
+        cy.get('datepicker-overview-example').find('input').eq(0).type('11/03/2024')
+
+
+
+        cy.get('datepicker-overview-example').find('svg').click()
+    })
+
+    it ('Interactuando con modales', ()=>{
+        cy.visit('/modal-dialog')
+        cy.get('#showSmallModal').click()
+        cy.get('#closeSmallModal').click()
+        
+    })
+
+    it ('Interactuando con alertas o pop-ups', ()=>{
+        cy.visit('/alerts') //tener en cuenta que cypress por defecto acepta las alertas.
+        cy.get('#confirmButton').click()
+
+        const stub = cy.stub
+        cy.on('window:confirm',stub)
+        cy.get('#confirmButton').click().then (()=>{
+            expect(stub.getCall(0)).to.be.calledWith('Do you confirm action?')
+        })
+        
+        cy.contains('You selected Ok').should('exist')
+
+        //Otra forma de hacerlo
+
+        cy.get('#confirmButton').click()
+        cy.on('window:confirm',(confirm)=>{
+            expect (confirm).to.equal('Do you confirm action?')
+        })
+
+
+        //Para rechazar las alertas 
+        cy.get('#confirmButton').click()
+        cy.on('window:confirm',(confirm)=>{
+            expect (confirm).to.equal('Do you confirm action?')
+            return false
+        })
+
+        cy.contains('You selected Cancel').should('exist')
+
+
+    })
+
+    it ('Interactuando con los tool tips', ()=>{
+        cy.visit('/tool-tips')
+        cy.get('#toolTipButton').trigger('mouseover')
+        cy.contains('You hovered over the Button').should('exist')
+        cy.get('#toolTipButton').trigger('mouseout').should('not.exist')
+         
+    })
+
+    it ('Interactuando con los drag and Drop', ()=>{
+        cy.visit('/dragabble')
+        cy.get('#dragBox').trigger('mousedown',{wich: 1 ,pageX:600, pageY:100})
+        .trigger('mousemove', {wich: 1, pageX: 100, pageY: 600})
+        .trigger('mouseup')
+    
+         
+    })
+
+
+
 
 })
